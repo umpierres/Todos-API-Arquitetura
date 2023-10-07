@@ -6,7 +6,6 @@ import { validateIDUser } from "./validators/";
 const routerNote = express.Router();
 const noteController = new NoteController();
 
-
 routerNote.post("/", validateIDUser, validateCreateNote, noteController.create)
 routerNote.get("/", validateIDUser, noteController.listNotes)
 routerNote.put("/:noteID", validateIDUser, validateUpdateNote, noteController.update)

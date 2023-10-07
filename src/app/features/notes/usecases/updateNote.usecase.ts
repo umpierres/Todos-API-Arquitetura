@@ -45,7 +45,7 @@ export class UpdateNote {
             updatedNote = await noteRepository.toggleFavoriteStatus(noteID)
         }
 
-        if(!updatedNote){
+        if(!note){
             return {
 				success: false,
 				message: 'Nota não encontrado.',
@@ -55,7 +55,7 @@ export class UpdateNote {
             success: true,
             message: "Nota atualizada com sucesso.",
             data: {
-                note: updatedNote
+                note: updatedNote!
             }
         };
     }

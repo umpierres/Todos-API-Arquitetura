@@ -1,4 +1,4 @@
-import {Redis} from 'ioredis';
+import { Redis } from 'ioredis';
 import { redis } from '../config/cache.config';
 
 export class RedisConnection {
@@ -14,7 +14,7 @@ export class RedisConnection {
 
     public static async connect() {
         if(!this._connection){
-            this._connection = redis
+            this._connection = redis;
             console.log("Banco de dados de cache conectado")
         }
     }

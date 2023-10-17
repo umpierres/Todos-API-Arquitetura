@@ -1,0 +1,11 @@
+
+PUT http://localhost:8080/notes/a654e3ce-ac00-42e8-b8a8-d77abf2056e8 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "abcdfddd",
+	"description": "123232dd",
+	"favorited": true,
+	"archived": false,
+	"ownerID": "56aa585e-06a7-4c4e-9041-4d1e770ef874"
+}

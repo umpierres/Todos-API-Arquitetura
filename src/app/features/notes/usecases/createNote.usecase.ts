@@ -2,6 +2,7 @@ import { UUID } from 'crypto';
 import { Note } from '../../../classes';
 import { UserRepository } from '../../users/repositories';
 import { NoteRepository } from '../repositories';
+import { CacheRepository } from '../../../shared/database/repositories';
 
 export type CreateNoteDTO = {
     title:string,
@@ -23,6 +24,8 @@ export type ReturnNote = {
 export class CreateNote{
     async execute(data: CreateNoteDTO): Promise<ReturnNote>{
         const userRepository = new UserRepository();
+        const cacheRepository = new CacheRepository();
+        
         const currentUser = await userRepository.findUserByID(data.ownerID)
 
         if(!currentUser) {
@@ -44,6 +47,8 @@ export class CreateNote{
         })
 
         const notes = await repository.listNotes(data.ownerID, {});
+        await cacheRepository.delete(`notes-user-${data.ownerID}`)
+
 
         return {
             success:true,

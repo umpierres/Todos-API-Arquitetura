@@ -1,0 +1,7 @@
+
+DELETE http://localhost:8080/notes/fd71f9dd-93ea-4299-880c-d71de4269ce3 HTTP/1.1
+content-type: application/json
+
+{
+   "ownerID": "56aa585e-06a7-4c4e-9041-4d1e770ef874"
+}

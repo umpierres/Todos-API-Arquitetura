@@ -19,7 +19,7 @@ export class NoteController {
     }
 
     async listNotes(req: Request, res: Response) {
-        const { ownerID } = req.body
+        const { ownerID } = req.params
         const { title, favorited, archived } = req.query as Filter
 
 

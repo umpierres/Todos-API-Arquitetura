@@ -1,3 +1,4 @@
+import { CacheRepository } from '../../../shared/database/repositories';
 import { UserRepository } from '../../users/repositories';
 import { NoteRepository } from '../repositories';
 import { ReturnNote } from './createNote.usecase';
@@ -10,8 +11,9 @@ type DeleteNoteDTO = {
 export class DeleteNote {
     async execute(data: DeleteNoteDTO): Promise<ReturnNote> {
         const {noteID, ownerID} = data
-        const noteRepository = new NoteRepository()
+        const noteRepository = new NoteRepository();
         const userRepository = new UserRepository();
+        const cacheRepository = new CacheRepository();
 
         const currentUser = await userRepository.findUserByID(ownerID)
 
@@ -35,6 +37,7 @@ export class DeleteNote {
         }
 
         await noteRepository.deleteNote(noteID)
+        await cacheRepository.delete(`notes-user-${ownerID}`)
 
         return {
             success: true,

@@ -1,3 +1,4 @@
+import { CacheRepository } from '../../../shared/database/repositories';
 import { UserRepository } from '../../users/repositories';
 import { NoteRepository } from '../repositories';
 import { ReturnNote } from './createNote.usecase';
@@ -16,8 +17,9 @@ export type UpdateDTO = {
 export class UpdateNote {
     async execute(data: UpdateDTO): Promise<ReturnNote> {
         const {newInfo, noteID, ownerID} = data
-        const noteRepository = new NoteRepository()
+        const noteRepository = new NoteRepository();
         const userRepository = new UserRepository();
+        const cacheRepository = new CacheRepository();
 
         const currentUser = await userRepository.findUserByID(ownerID)
 
@@ -44,6 +46,9 @@ export class UpdateNote {
         } else if(data.action === "favorite"){
             updatedNote = await noteRepository.toggleFavoriteStatus(noteID)
         }
+
+        await cacheRepository.delete(`notes-user-${ownerID}`)
+
 
         if(!note){
             return {

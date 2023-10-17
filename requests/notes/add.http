@@ -1,0 +1,11 @@
+
+POST http://localhost:8080/notes HTTP/1.1
+content-type: application/json
+
+{
+    "title": "teste numero 1",
+	"description": "fazendo um teste de cadastro",
+	"favorited": true,
+	"archived": false,
+	"ownerID": "56aa585e-06a7-4c4e-9041-4d1e770ef874"
+}

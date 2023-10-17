@@ -1,0 +1,4 @@
+
+GET http://localhost:8080/notes/56aa585e-06a7-4c4e-9041-4d1e770ef874 HTTP/1.1
+content-type: application/json
+

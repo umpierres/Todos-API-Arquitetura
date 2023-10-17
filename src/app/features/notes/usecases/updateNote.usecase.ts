@@ -48,6 +48,7 @@ export class UpdateNote {
         }
 
         await cacheRepository.delete(`notes-user-${ownerID}`)
+        await cacheRepository.delete(`note-${noteID}`)
 
 
         if(!note){

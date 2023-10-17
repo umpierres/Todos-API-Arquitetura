@@ -38,6 +38,7 @@ export class DeleteNote {
 
         await noteRepository.deleteNote(noteID)
         await cacheRepository.delete(`notes-user-${ownerID}`)
+        await cacheRepository.delete(`note-${noteID}`)
 
         return {
             success: true,

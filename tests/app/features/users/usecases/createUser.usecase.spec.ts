@@ -36,7 +36,7 @@ describe("Testes para usecade de cadastrar usuario", () =>{
     });
 
     test("Deve retornar um objeto com um usuario com email valido", async () => {
-        const fakeUser = new User(randomUUID(), 'any_email', "any_password")
+        const fakeUser = new User( randomUUID(), 'any_email',"any_password")
         jest.spyOn(UserRepository.prototype, 'doesUserExist').mockResolvedValue(false);
         jest.spyOn(UserRepository.prototype, 'createUser').mockResolvedValue(fakeUser);
 
@@ -50,7 +50,10 @@ describe("Testes para usecade de cadastrar usuario", () =>{
         expect(result).toEqual({
             success:true,
             message: "Usuário cadastrado com sucesso.",
-            data: fakeUser.toJSON(),
+            data: {
+                id: fakeUser.toJSON().id, 
+				email: fakeUser.toJSON().email
+            },
         });
     })
 })

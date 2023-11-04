@@ -18,4 +18,12 @@ export class RedisConnection {
             console.log("Banco de dados de cache conectado")
         }
     }
+
+    public static async destroy() {
+        if(!this._connection){
+            throw new Error ("Base de dados não inicializada")
+        }
+        await this._connection.quit()
+        console.log("Banco de dados desconectado")
+    }
 }

@@ -1,37 +1,37 @@
-import {Entity, PrimaryColumn, Column, BaseEntity, ManyToOne, JoinColumn} from "typeorm"
-import { UserEntity } from "./user.entity";
+import {Entity, PrimaryColumn, Column, BaseEntity, ManyToOne, JoinColumn} from 'typeorm';
+import { UserEntity } from './user.entity';
 
 @Entity({name:'tasks'})
 export class NoteEntity extends BaseEntity{
     @PrimaryColumn({name:'id', type: 'uuid'})
-    id!: string;
+    	id!: string;
     
     @PrimaryColumn({name:'id_user'})
-    idUser!: string;
+    	idUser!: string;
 
     @Column({length:255, type:'varchar'})
-    title!:string;
+    	title!:string;
 
     @Column({type:'text'})
-    description!:string;
+    	description!:string;
 
     @Column({name:'created_at'})
-    createdAt!:Date;
+    	createdAt!:Date;
 
     @Column({name:'updated_at'})
-    updatedAt!:Date;
+    	updatedAt!:Date;
 
     @Column({default: false})
-    favorited!:boolean;
+    	favorited!:boolean;
 
     @Column({default: false})
-    archived!:boolean;
+    	archived!:boolean;
 
     @ManyToOne(()=> UserEntity, (user) => user.notes)
     @JoinColumn({
-        name: 'id_user',
-        foreignKeyConstraintName:'tasks_id_user_fkey',
-        referencedColumnName:'id'
+    	name: 'id_user',
+    	foreignKeyConstraintName:'tasks_id_user_fkey',
+    	referencedColumnName:'id'
     })
-    user!: UserEntity;
+    	user!: UserEntity;
 }

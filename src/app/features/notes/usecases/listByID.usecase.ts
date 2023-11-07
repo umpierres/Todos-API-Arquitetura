@@ -1,8 +1,8 @@
-import { Note } from "../../../classes";
-import { CacheRepository } from "../../../shared/database/repositories";
-import { UserRepository } from "../../users/repositories";
-import { NoteRepository } from "../repositories";
-import { ReturnNote } from "./createNote.usecase";
+import { Note } from '../../../classes';
+import { CacheRepository } from '../../../shared/database/repositories';
+import { UserRepository } from '../../users/repositories';
+import { NoteRepository } from '../repositories';
+import { ReturnNote } from './createNote.usecase';
 
 type ListByIDDTO = {
 	ownerID: string;
@@ -14,8 +14,8 @@ export class ListByID {
 		const { noteID, ownerID } = data;
 
 		const noteRepository = new NoteRepository();
-        const userRepository = new UserRepository();
-        const cacheRepository = new CacheRepository();
+		const userRepository = new UserRepository();
+		const cacheRepository = new CacheRepository();
 
 		const currentUser = await userRepository.findUserByID(ownerID);
 
@@ -26,7 +26,7 @@ export class ListByID {
 			};
 		}
 
-		const noteCache = await cacheRepository.get<Note>(`note-${noteID}`)
+		const noteCache = await cacheRepository.get<Note>(`note-${noteID}`);
 
 
 		if (!noteCache) {
@@ -39,7 +39,7 @@ export class ListByID {
 				};
 			}
 
-			await cacheRepository.set<Note>(`note-${noteID}`, note)
+			await cacheRepository.set<Note>(`note-${noteID}`, note);
 
 			return {
 				success: true,
@@ -52,10 +52,10 @@ export class ListByID {
 
 		return {
 			success:true,
-            message: "Notas em cache buscadas com sucesso.",
-            data: {
-                note: noteCache
-            },
+			message: 'Notas em cache buscadas com sucesso.',
+			data: {
+				note: noteCache
+			},
 		};
 	}
 }

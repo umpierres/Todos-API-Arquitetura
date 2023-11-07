@@ -1,1 +1,1 @@
-export * from './notes.repository'
+export * from './notes.repository';

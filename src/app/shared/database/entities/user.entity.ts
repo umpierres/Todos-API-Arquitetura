@@ -1,20 +1,20 @@
-import {Entity, PrimaryColumn, Column, BaseEntity, OneToMany} from "typeorm"
-import { NoteEntity } from "./note.entity";
+import {Entity, PrimaryColumn, Column, BaseEntity, OneToMany} from 'typeorm';
+import { NoteEntity } from './note.entity';
 
 @Entity({name:'users'})
 export class UserEntity extends BaseEntity{
     @PrimaryColumn({name:'id', type: 'uuid'})
-    id!: string;
+    	id!: string;
 
     @Column({unique:true, length:250, type:'varchar'})
-    email!:string;
+    	email!:string;
 
     @Column({length:250, type:'varchar'})
-    password!:string;
+    	password!:string;
 
     @Column({name:'created_at'})
-    createdAt!:Date;
+    	createdAt!:Date;
 
     @OneToMany(() => NoteEntity, (notes) => notes.idUser)
-    notes!: NoteEntity[]
+    	notes!: NoteEntity[];
 }

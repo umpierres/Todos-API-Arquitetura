@@ -1,2 +1,2 @@
-export * from './validateDataUser'
-export * from './validateUserLogin'
+export * from './validateDataUser';
+export * from './validateUserLogin';

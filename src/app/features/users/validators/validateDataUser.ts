@@ -1,8 +1,8 @@
-import { NextFunction,Request,Response } from "express";
-import { UserDTO } from "../usecases";
+import { NextFunction,Request,Response } from 'express';
+import { UserDTO } from '../usecases';
 
 export function validateDataUser(req:Request, res: Response, next: NextFunction){
-    const user: UserDTO = req.body;
+	const user: UserDTO = req.body;
 
 	if (!user.email || !user.password) {
 		return res
@@ -26,6 +26,6 @@ export function validateDataUser(req:Request, res: Response, next: NextFunction)
 			.json({ success: false, message: 'A senha precisa de letras e numeros!' });
 	}
 
-	next()
+	next();
 
 }

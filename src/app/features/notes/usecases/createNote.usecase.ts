@@ -22,42 +22,42 @@ export type ReturnNote = {
 };
 
 export class CreateNote{
-    async execute(data: CreateNoteDTO): Promise<ReturnNote>{
-        const userRepository = new UserRepository();
-        const cacheRepository = new CacheRepository();
+	async execute(data: CreateNoteDTO): Promise<ReturnNote>{
+		const userRepository = new UserRepository();
+		const cacheRepository = new CacheRepository();
         
-        const currentUser = await userRepository.findUserByID(data.ownerID)
+		const currentUser = await userRepository.findUserByID(data.ownerID);
 
-        if(!currentUser) {
-            return {
+		if(!currentUser) {
+			return {
 				success: false,
 				message: 'Usuário não encontrado.',
 			}; 
-        }
+		}
 
-        const repository = new NoteRepository();
-
-
-        const newNote = await repository.createNote({
-            title:data.title,
-            description: data.description,
-            favorited: data.favorited,
-            archived: data.archived,
-            ownerID: data.ownerID as UUID,
-        })
-
-        const notes = await repository.listNotes(data.ownerID, {});
-        await cacheRepository.delete(`notes-user-${data.ownerID}`)
-        await cacheRepository.delete(`note-${newNote.toJSON().id}`)
+		const repository = new NoteRepository();
 
 
-        return {
-            success:true,
-            message: "Nota cadastrado com sucesso.",
-            data: {
-                note: newNote,
-                notes: notes,
-            },
-        }
-    }
+		const newNote = await repository.createNote({
+			title:data.title,
+			description: data.description,
+			favorited: data.favorited,
+			archived: data.archived,
+			ownerID: data.ownerID as UUID,
+		});
+
+		const notes = await repository.listNotes(data.ownerID, {});
+		await cacheRepository.delete(`notes-user-${data.ownerID}`);
+		await cacheRepository.delete(`note-${newNote.toJSON().id}`);
+
+
+		return {
+			success:true,
+			message: 'Nota cadastrado com sucesso.',
+			data: {
+				note: newNote,
+				notes: notes,
+			},
+		};
+	}
 }

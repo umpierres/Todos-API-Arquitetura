@@ -1,20 +1,20 @@
-import { DataSource, DataSourceOptions } from 'typeorm'
-import { appEnvs, postgresEnvs } from '../../app/envs'
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { appEnvs, postgresEnvs } from '../../app/envs';
 
-const isProduction = appEnvs.ambient?.toLocaleLowerCase() === 'production'
-const rootDir = isProduction ? 'dist' : 'src'
+const isProduction = appEnvs.ambient?.toLocaleLowerCase() === 'production';
+const rootDir = isProduction ? 'dist' : 'src';
 
-let config:DataSourceOptions = {
-    type:'postgres',
-    url: postgresEnvs.url,
-    synchronize: false,
-    logging: false,
-    ssl: {
-        rejectUnauthorized: false,
-    },
-    entities: [ rootDir + '/app/shared/database/entities/**/*'],
-    migrations: [rootDir +'/app/shared/database/migrations/**/*'],
-} 
+const config:DataSourceOptions = {
+	type:'postgres',
+	url: postgresEnvs.url,
+	synchronize: false,
+	logging: false,
+	ssl: {
+		rejectUnauthorized: false,
+	},
+	entities: [ rootDir + '/app/shared/database/entities/**/*'],
+	migrations: [rootDir +'/app/shared/database/migrations/**/*'],
+}; 
 
 
-export default new DataSource(config)
+export default new DataSource(config);

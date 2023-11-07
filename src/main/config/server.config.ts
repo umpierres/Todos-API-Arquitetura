@@ -3,13 +3,13 @@ import express from 'express';
 import { makeRoutes } from './routes.config';
 
 export function app(){
-    const app = express();
+	const app = express();
 
-    app.use(cors());
-    app.use(express.json());
-    app.use(express.urlencoded({ extended:false }));
+	app.use(cors());
+	app.use(express.json());
+	app.use(express.urlencoded({ extended:false }));
 
-    makeRoutes(app)
+	makeRoutes(app);
 
-    return app
+	return app;
 }

@@ -1,8 +1,8 @@
-import { NextFunction,Request,Response } from "express";
-import { CreateNoteDTO } from "../usecases";
+import { NextFunction,Request,Response } from 'express';
+import { CreateNoteDTO } from '../usecases';
 
 export function validateCreateNote(req:Request, res: Response, next: NextFunction){
-    const note: CreateNoteDTO = req.body;
+	const note: CreateNoteDTO = req.body;
 
 	if (!note.description || !note.title ) {
 		return res

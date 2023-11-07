@@ -1,14 +1,14 @@
 import { randomUUID } from 'crypto';
 import { User } from '../../../../../src/app/classes';
 import { UserRepository } from '../../../../../src/app/features/users/repositories';
-import {CreateUser} from '../../../../../src/app/features/users/usecases';
+import {LoginUser} from '../../../../../src/app/features/users/usecases';
 import { DatabaseConnection, RedisConnection } from '../../../../../src/main/database';
 
-describe('Testes para usecase de cadastrar usuario', () =>{
+describe('Testes para usecase de logar usuario', () =>{
 	jest.mock('../../../../../src/app/features/users/repositories');
 
 	function createSut() {
-		return new CreateUser();
+		return new LoginUser();
 	}
 
 	beforeAll(async () => {
@@ -25,8 +25,8 @@ describe('Testes para usecase de cadastrar usuario', () =>{
 		jest.clearAllMocks();
 	});
 
-	test('Deve retornar um objeto de erro quando usuario já existir', async () => {
-		jest.spyOn(UserRepository.prototype, 'doesUserExist').mockResolvedValue(true);
+	test('Deve retornar um objeto de erro quando usuario não existir', async () => {
+		jest.spyOn(UserRepository.prototype, 'doesUserExist').mockResolvedValue(false);
 		const sut = createSut();
 
 		const result = await sut.execute({
@@ -34,15 +34,15 @@ describe('Testes para usecase de cadastrar usuario', () =>{
 			password: 'any_password'
 		});
 
-		expect(result.success).toBe(false);
-		expect(result.message).toBe('Usuário já existe.');
+		expect(result.success).toBe(true);
+		expect(result.message).toBe('Usuário não existe.');
 		expect(result.data).toBeUndefined();
 	});
 
 	test('Deve retornar um objeto com um usuario com email valido', async () => {
 		const fakeUser = new User( randomUUID(), 'any_email','any_password');
-		jest.spyOn(UserRepository.prototype, 'doesUserExist').mockResolvedValue(false);
-		jest.spyOn(UserRepository.prototype, 'createUser').mockResolvedValue(fakeUser);
+		jest.spyOn(UserRepository.prototype, 'doesUserExist').mockResolvedValue(true);
+		jest.spyOn(UserRepository.prototype, 'loginUser').mockResolvedValue(fakeUser);
 
 		const sut = createSut();
 
@@ -53,7 +53,7 @@ describe('Testes para usecase de cadastrar usuario', () =>{
 
 		expect(result).toEqual({
 			success:true,
-			message: 'Usuário cadastrado com sucesso.',
+			message: 'Cadastro encontrado! Bem-vindo(a)',
 			data: {
 				id: fakeUser.toJSON().id, 
 				email: fakeUser.toJSON().email

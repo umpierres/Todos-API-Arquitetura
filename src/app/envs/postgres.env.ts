@@ -1,5 +1,5 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
 export const postgresEnvs = {
-    url: process.env.URL_DATABASE
-}
+	url: process.env.URL_DATABASE
+};

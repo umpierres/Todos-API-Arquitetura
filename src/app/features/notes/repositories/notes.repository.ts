@@ -26,135 +26,135 @@ export type Filter = {
 }
 
 export class NoteRepository {
-  private _manager = DatabaseConnection.connection.manager
-  async createNote(data: CreateNoteDTO) : Promise<Note>  {
-    const { title, description, favorited, archived, ownerID } = data;
+	private _manager = DatabaseConnection.connection.manager;
+	async createNote(data: CreateNoteDTO) : Promise<Note>  {
+		const { title, description, favorited, archived, ownerID } = data;
 
-    const user = await this._manager.findOneOrFail(UserEntity, {
-      where:
+		const user = await this._manager.findOneOrFail(UserEntity, {
+			where:
       { 
-        id: ownerID
+      	id: ownerID
       }
-    });
-    const newNote = this._manager.create(NoteEntity, {
-      idUser: ownerID,
-      title,
-      description,
-      favorited,
-      archived,
-      user
-    })
+		});
+		const newNote = this._manager.create(NoteEntity, {
+			idUser: ownerID,
+			title,
+			description,
+			favorited,
+			archived,
+			user
+		});
 
-    const note = await this._manager.save(newNote)
+		const note = await this._manager.save(newNote);
 
-    return this.entityToClass(note)
-    }
+		return this.entityToClass(note);
+	}
 
-  async listNotes(ownerID: string, filter?:Filter) : Promise<Note[]> {
-    const condition: FindOptionsWhere<NoteEntity> = {
-      idUser: ownerID,
-    }
-    if(filter) {
-      if(filter.title){
-        condition.title = filter.title
-      }
+	async listNotes(ownerID: string, filter?:Filter) : Promise<Note[]> {
+		const condition: FindOptionsWhere<NoteEntity> = {
+			idUser: ownerID,
+		};
+		if(filter) {
+			if(filter.title){
+				condition.title = filter.title;
+			}
 
-      if(filter.favorited){
-        condition.favorited = filter.favorited
-      }
+			if(filter.favorited){
+				condition.favorited = filter.favorited;
+			}
 
-      if(filter.archived){
-        condition.archived = filter.archived
-      }
-    }
+			if(filter.archived){
+				condition.archived = filter.archived;
+			}
+		}
 
-    const filteredList = await this._manager.find(NoteEntity, {
-      where: condition, 
-      relations: {
-        user: true
-      }
-    })
+		const filteredList = await this._manager.find(NoteEntity, {
+			where: condition, 
+			relations: {
+				user: true
+			}
+		});
 
-    return filteredList.map((note) => this.entityToClass(note))
-  }
+		return filteredList.map((note) => this.entityToClass(note));
+	}
       
-  async findNoteByID(ownerID: string, noteID: string): Promise<Note | undefined> {
-    const note = await this._manager.findOne(NoteEntity,{
-      where: {
-        id: noteID,
-        idUser: ownerID
-      },
-      relations: {
-        user: true
-      }
-    })
+	async findNoteByID(ownerID: string, noteID: string): Promise<Note | undefined> {
+		const note = await this._manager.findOne(NoteEntity,{
+			where: {
+				id: noteID,
+				idUser: ownerID
+			},
+			relations: {
+				user: true
+			}
+		});
 
-    if (!note) return undefined
+		if (!note) return undefined;
     
-    return this.entityToClass(note)
-  }
+		return this.entityToClass(note);
+	}
 
-  async updateNote(data: UpdateNoteDTO): Promise<void> {
-    const {title, description, noteID, updatedAt} = data
+	async updateNote(data: UpdateNoteDTO): Promise<void> {
+		const {title, description, noteID, updatedAt} = data;
 
-    await this._manager.update(NoteEntity, {
-      id: noteID
-    }, {
-      title, 
-      description, 
-      updatedAt
-    })
-  }
+		await this._manager.update(NoteEntity, {
+			id: noteID
+		}, {
+			title, 
+			description, 
+			updatedAt
+		});
+	}
       
-  async toggleArchiveStatus(noteID: string): Promise<Note | null> {
-    const note = await this._manager.findOne(NoteEntity, {
-      where: {
-          id: noteID,
-      }
-    });
+	async toggleArchiveStatus(noteID: string): Promise<Note | null> {
+		const note = await this._manager.findOne(NoteEntity, {
+			where: {
+				id: noteID,
+			}
+		});
 
-    if (!note) return null;
+		if (!note) return null;
 
-    note.archived = !note.archived;
-    await this._manager.save(NoteEntity, note);
+		note.archived = !note.archived;
+		await this._manager.save(NoteEntity, note);
 
-    return this.entityToClass(note);
-  }
+		return this.entityToClass(note);
+	}
 
-  async toggleFavoriteStatus(noteID: string): Promise<Note | null> {
-    const note = await this._manager.findOne(NoteEntity, {
-      where: {
-          id: noteID,
-      }
-    });
+	async toggleFavoriteStatus(noteID: string): Promise<Note | null> {
+		const note = await this._manager.findOne(NoteEntity, {
+			where: {
+				id: noteID,
+			}
+		});
 
-    if (!note) return null;
+		if (!note) return null;
 
-    note.favorited = !note.favorited;
-    await this._manager.save(NoteEntity, note);
+		note.favorited = !note.favorited;
+		await this._manager.save(NoteEntity, note);
 
-    return this.entityToClass(note);
-  }
+		return this.entityToClass(note);
+	}
 
-  async deleteNote(noteID: string): Promise<void> {
-    const note = await this._manager.findOne(NoteEntity, {
-      where: {
-        id: noteID,
-      },
-      relations: {
-        user: true,
-      },
-    });
+	async deleteNote(noteID: string): Promise<void> {
+		const note = await this._manager.findOne(NoteEntity, {
+			where: {
+				id: noteID,
+			},
+			relations: {
+				user: true,
+			},
+		});
   
-    if (note) {
-      await this._manager.remove(note); 
-    }
-  }
+		if (note) {
+			await this._manager.remove(note); 
+		}
+	}
 
-  private entityToClass(dataDB: NoteEntity): Note {
-    const user = new User(dataDB.user.id, dataDB.user.email, dataDB.user.password);
-    const note = new Note(dataDB.id, dataDB.title, dataDB.description, dataDB.archived,dataDB.favorited, user);
+	private entityToClass(dataDB: NoteEntity): Note {
+		const user = new User(dataDB.user.id, dataDB.user.email, dataDB.user.password);
+		const note = new Note(dataDB.id, dataDB.title, dataDB.description, dataDB.archived,dataDB.favorited, user);
   
-    return note;
-  }
+		return note;
+	}
 }

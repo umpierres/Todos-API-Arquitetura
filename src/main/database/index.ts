@@ -1,2 +1,2 @@
-export * from './typeorm.connection'
-export * from './ioredis.connection'
+export * from './typeorm.connection';
+export * from './ioredis.connection';

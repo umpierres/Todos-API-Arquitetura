@@ -1,7 +1,7 @@
-import { NextFunction,Request,Response } from "express";
+import { NextFunction,Request,Response } from 'express';
 
 export function validateIDUser(req:Request, res: Response, next: NextFunction){
-    const {ownerID} = req.body;
+	const {ownerID} = req.body;
 
 	if (!ownerID) {
 		return res
@@ -9,5 +9,5 @@ export function validateIDUser(req:Request, res: Response, next: NextFunction){
 			.json({success: false, message: 'Você precisa informar o ID do usuario' });
 	}
 
-	next()
+	next();
 }

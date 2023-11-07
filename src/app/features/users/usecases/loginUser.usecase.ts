@@ -1,5 +1,5 @@
-import { UserRepository } from "../repositories";
-import { UserDTO } from ".";
+import { UserRepository } from '../repositories';
+import { UserDTO } from '.';
 
 
 type LoginUserResponse = {

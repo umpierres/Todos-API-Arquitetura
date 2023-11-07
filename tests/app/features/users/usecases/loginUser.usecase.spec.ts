@@ -26,7 +26,7 @@ describe('Testes para usecase de logar usuario', () =>{
 	});
 
 	test('Deve retornar um objeto de erro quando usuario não existir', async () => {
-		jest.spyOn(UserRepository.prototype, 'doesUserExist').mockResolvedValue(false);
+		jest.spyOn(UserRepository.prototype, 'loginUser').mockResolvedValue(undefined);
 		const sut = createSut();
 
 		const result = await sut.execute({
@@ -34,14 +34,14 @@ describe('Testes para usecase de logar usuario', () =>{
 			password: 'any_password'
 		});
 
-		expect(result.success).toBe(true);
-		expect(result.message).toBe('Usuário não existe.');
-		expect(result.data).toBeUndefined();
+		expect(result).toEqual({
+			success: false,
+			message: 'Senha e/ou email incorretos!',
+		});
 	});
 
-	test('Deve retornar um objeto com um usuario com email valido', async () => {
+	test('Deve logar um usuario que existe na base de dados', async () => {
 		const fakeUser = new User( randomUUID(), 'any_email','any_password');
-		jest.spyOn(UserRepository.prototype, 'doesUserExist').mockResolvedValue(true);
 		jest.spyOn(UserRepository.prototype, 'loginUser').mockResolvedValue(fakeUser);
 
 		const sut = createSut();

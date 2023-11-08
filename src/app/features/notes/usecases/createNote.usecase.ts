@@ -46,9 +46,9 @@ export class CreateNote{
 			ownerID: data.ownerID as UUID,
 		});
 
-		const notes = await repository.listNotes(data.ownerID, {});
 		await cacheRepository.delete(`notes-user-${data.ownerID}`);
 		await cacheRepository.delete(`note-${newNote.toJSON().id}`);
+		const notes = await repository.listNotes(data.ownerID, {});
 
 
 		return {

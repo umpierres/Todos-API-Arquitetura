@@ -61,7 +61,6 @@ describe('Testes para o usecase de deletar uma nota', () => {
 		});
 	});
 
-
 	test('deve retornar um objeto de sucesso com os dados da nota excluida', async () => {
 		const fakeUser = new User( randomUUID(), 'any_email','any_password');
 		const fakeNote = new Note(randomUUID(), 'any_title', 'any_description', false, false, fakeUser);

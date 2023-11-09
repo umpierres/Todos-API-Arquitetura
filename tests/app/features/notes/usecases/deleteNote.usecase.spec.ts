@@ -29,6 +29,21 @@ describe('Testes para o usecase de deletar uma nota', () => {
 		jest.clearAllMocks();
 	});
 
+	test('deve retornar um objeto de erro quando o usuario não existir', async () => {
+		jest.spyOn(UserRepository.prototype, 'findUserByID').mockResolvedValue(undefined);
+
+		const sut = createSut();
+		const result = await sut.execute({
+			noteID: randomUUID(),
+			ownerID: randomUUID(),
+		});
+
+		expect(result).toEqual({
+			success: false,
+			message: 'Usuário não encontrado. Não foi possivel atualizar a nota.',
+		});
+	});
+
 	test('deve retornar um objeto de erro quando a nota não existir', async () => {
 		const fakeUser = new User( randomUUID(), 'any_email','any_password');
 		jest.spyOn(UserRepository.prototype, 'findUserByID').mockResolvedValue(fakeUser);
@@ -43,21 +58,6 @@ describe('Testes para o usecase de deletar uma nota', () => {
 		expect(result).toEqual({
 			success: false,
 			message: 'Nota não encontrado.',
-		});
-	});
-
-	test('deve retornar um objeto de erro quando o usuario não existir', async () => {
-		jest.spyOn(UserRepository.prototype, 'findUserByID').mockResolvedValue(undefined);
-
-		const sut = createSut();
-		const result = await sut.execute({
-			noteID: randomUUID(),
-			ownerID: randomUUID(),
-		});
-
-		expect(result).toEqual({
-			success: false,
-			message: 'Usuário não encontrado. Não foi possivel atualizar a nota.',
 		});
 	});
 

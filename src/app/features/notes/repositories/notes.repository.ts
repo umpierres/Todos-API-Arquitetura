@@ -94,16 +94,25 @@ export class NoteRepository {
 		return this.entityToClass(note);
 	}
 
-	async updateNote(data: UpdateNoteDTO): Promise<void> {
+	async updateNote(data: UpdateNoteDTO): Promise<Note | null> {
 		const {title, description, noteID, updatedAt} = data;
 
-		await this._manager.update(NoteEntity, {
-			id: noteID
-		}, {
-			title, 
-			description, 
-			updatedAt
+		 const updatedNote = await this._manager.findOne(NoteEntity, {
+			where: { id: noteID }
 		});
+
+		if (updatedNote) {
+			updatedNote.title = title || updatedNote.title;
+			updatedNote.description = description || updatedNote.description;
+			updatedNote.updatedAt = updatedAt;
+
+			await this._manager.save(updatedNote);
+
+			return this.entityToClass(updatedNote);
+		}
+
+		return null;
+
 	}
       
 	async toggleArchiveStatus(noteID: string): Promise<Note | null> {

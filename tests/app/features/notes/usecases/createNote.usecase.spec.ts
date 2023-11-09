@@ -5,7 +5,7 @@ import { UserRepository } from '../../../../../src/app/features/users/repositori
 import { Note, User } from '../../../../../src/app/classes';
 import { NoteRepository } from '../../../../../src/app/features/notes/repositories';
 
-describe('Testes para o usecase de cadastrar uma transação', () => {
+describe('Testes para o usecase de cadastrar uma nota', () => {
 	jest.mock('../../../../../src/app/features/notes/repositories');
 	jest.mock('../../../../../src/app/features/users/repositories');
 	jest.mock('../../../../../src/app/shared/database/repositories');

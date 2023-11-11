@@ -32,8 +32,7 @@ export class UserRepository {
   
 		return this.entityToClass(user);
 
-	}
-      
+	}     
     
 	async findUserByID(ownerID: string): Promise<User | undefined> {
 		const user = await this._manager.findOneBy(UserEntity,{ id: ownerID });

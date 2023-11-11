@@ -160,6 +160,10 @@ export class NoteRepository {
 		}
 	}
 
+	public async clear() {
+		await this._manager.delete(NoteEntity, {});
+	}
+
 	private entityToClass(dataDB: NoteEntity): Note {
 		const user = new User(dataDB.user.id, dataDB.user.email, dataDB.user.password);
 		const note = new Note(dataDB.id, dataDB.title, dataDB.description, dataDB.archived,dataDB.favorited, user);

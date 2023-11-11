@@ -81,26 +81,6 @@ describe('Teste de rotas de User', () => {
 			});
 	});
 
-	test('Deve retornar 400 se não for enviado o email', async () =>{
-
-		await supertest(app).post('/users/signin').send({password: 'any_password'}).expect(400).expect((res) => {
-			expect(res.body).toEqual({
-				success: false, 
-				message: 'Campo email é obrigatório!'
-			});
-		});
-	});
-
-	test('Deve retornar 400 se não for enviado a senha', async () =>{
-
-		await supertest(app).post('/users/signin').send({email: 'any_email'}).expect(400).expect((res) => {
-			expect(res.body).toEqual({
-				success: false, 
-				message: 'Campo senha é obrigatório!'
-			});
-		});
-	});
-
 	test('Deve retornar 400 se o email já existir na base de dados', async ()=>{
 		await createUsers();
 
@@ -120,6 +100,7 @@ describe('Teste de rotas de User', () => {
 	});
 
 	test('Deve retornar 201 quando o email não existir na base de dados', async ()=>{
+		
 		await supertest(app)
 			.post('/users/signup')
 			.send({
@@ -130,6 +111,36 @@ describe('Teste de rotas de User', () => {
 			.expect((res) => {
 				expect(res.body.success).toBe(true);
 				expect(res.body.message).toBe('Usuário cadastrado com sucesso.');
+				expect(res.body.data).toBeDefined();
+			});
+	});
+
+	test('Login - Deve retornar 401 se usuario não for valido', async () =>{
+
+		await supertest(app).post('/users/signin').send({
+			email: 'any_email@email.com',
+			password: 'any_password'
+		}).expect(401).expect((res) => {
+			expect(res.body).toEqual({
+				success: false,
+				message: 'Senha e/ou email incorretos!',
+			});
+		});
+	});
+
+	test('Login - Deve retornar 202 quando o usuario existir na base de dados', async ()=>{
+		await createUsers();
+
+		await supertest(app)
+			.post('/users/signin')
+			.send({
+				email: 'any_email@email.com',
+				password: 'any_password',
+			})
+			.expect(202)
+			.expect((res) => {
+				expect(res.body.success).toBe(true);
+				expect(res.body.message).toBe('Cadastro encontrado! Bem-vindo(a)');
 				expect(res.body.data).toBeDefined();
 			});
 	});

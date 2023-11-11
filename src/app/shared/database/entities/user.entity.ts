@@ -1,5 +1,6 @@
-import {Entity, PrimaryColumn, Column, BaseEntity, OneToMany} from 'typeorm';
+import {Entity, PrimaryColumn, Column, BaseEntity, OneToMany, BeforeInsert} from 'typeorm';
 import { NoteEntity } from './note.entity';
+import { randomUUID } from 'crypto';
 
 @Entity({name:'users'})
 export class UserEntity extends BaseEntity{
@@ -17,4 +18,9 @@ export class UserEntity extends BaseEntity{
 
     @OneToMany(() => NoteEntity, (notes) => notes.idUser)
     	notes!: NoteEntity[];
+
+        @BeforeInsert()
+    beforeInsert(){
+    	this.id = randomUUID();
+    }
 }

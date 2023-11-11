@@ -2,11 +2,12 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { appEnvs, postgresEnvs } from '../../app/envs';
 
 const isProduction = appEnvs.ambient?.toLocaleLowerCase() === 'production';
+const isTest = appEnvs.ambient?.toLocaleLowerCase() === 'test';
 const rootDir = isProduction ? 'dist' : 'src';
 
 const config:DataSourceOptions = {
 	type:'postgres',
-	url: postgresEnvs.url,
+	url: isTest ? postgresEnvs.urlTest : postgresEnvs.url,
 	synchronize: false,
 	logging: false,
 	ssl: {

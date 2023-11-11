@@ -45,6 +45,10 @@ export class UserRepository {
 		return this.entityToClass(user);
 	}
 
+	public async clear() {
+		await this._manager.delete(UserEntity, {});
+	}
+
 	private entityToClass(userEntity: UserEntity): User {
 		return new User(userEntity.id, userEntity.email, userEntity.password );
 	}

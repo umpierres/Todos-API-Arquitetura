@@ -12,9 +12,9 @@ export function createServer(){
 
 	makeRoutes(app);
 
-	app.listen(appEnvs.port, () => {
+	const server = app.listen(appEnvs.port, () => {
 		console.log(`Servidor rodando na porta: ${appEnvs.port}`);
 	});
 
-	return app;
+	return { app, server };
 }

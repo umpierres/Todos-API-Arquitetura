@@ -10,7 +10,7 @@ export function validateUpdateNote(req:Request, res: Response, next: NextFunctio
 			.json({success: false, message: 'Insira algum dado para atualizar a nota.' });
 	}
 	if(note.title){
-		if( note.title.length < 2 || note.title.length > 40){
+		if( note.title.length < 2 || note.title.length > 15){
 			return res
 				.status(400)
 				.json({success: false, message: 'O tamanho do titulo está fora do escopo da aplicação' });

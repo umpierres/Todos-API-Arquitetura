@@ -1,4 +1,3 @@
-import { UUID } from 'crypto';
 import { FindOptionsWhere } from 'typeorm';
 import { DatabaseConnection } from '../../../../main/database';
 import { Note, User } from '../../../classes';
@@ -10,7 +9,7 @@ export type CreateNoteDTO = {
   description: string,
   favorited: boolean,
   archived: boolean,
-  ownerID: UUID,
+  ownerID: string,
 }
 export type UpdateNoteDTO = {
   noteID: string

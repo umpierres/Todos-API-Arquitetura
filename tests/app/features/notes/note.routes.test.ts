@@ -269,6 +269,25 @@ describe('UPDATE - Teste de rotas de atualizar Notas', () => {
 			});
 		});
 	});
+
+	test.only('UPDATE - Deve retornar 201 quando todos os dados forem validos para atualizar', async ()=>{
+		const note = await createNotes();
+
+		console.log('Note JSON', note.json);
+		await supertest(app)
+			.put(`/notes/${note.noteID}`)
+			.send({
+				ownerID: note.json.ownerID, 
+				description: 'not_any_description',
+				title: 'title att',
+			})
+			.expect(201)
+			.expect((res) => {
+				expect(res.body.success).toBe(true);
+				expect(res.body.message).toBe('Nota atualizada com sucesso.');
+				expect(res.body.data).toBeDefined();
+			});
+	});
 	  
 });
 

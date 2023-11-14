@@ -19,7 +19,7 @@ export class UserEntity extends BaseEntity{
     @OneToMany(() => NoteEntity, (notes) => notes.idUser)
     	notes!: NoteEntity[];
 
-        @BeforeInsert()
+    @BeforeInsert()
     beforeInsert(){
     	this.id = randomUUID();
     }

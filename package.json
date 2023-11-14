@@ -44,7 +44,7 @@
     "migration:run": "npm run typeorm migration:run -- -d src/main/config/database.config.ts",
     "test": "cross-env NODE_ENV=test jest --silent --noStackTrace --runInBand",
     "test:unit": "jest --silent --noStackTrace --runInBand -c ./jest.config.unit.ts",
-    "test:integration": "cross-env NODE_ENV=test jest --silent --noStackTrace --runInBand -c ./jest.config.integration.ts",
+    "test:integration": "cross-env NODE_ENV=test jest --noStackTrace --runInBand -c ./jest.config.integration.ts",
     "test:verbose": "jest --verbose --runInBand --detectOpenHandles",
     "test:coverage": "jest --runInBand --coverage",
     "test:watch": "jest --silent --noStackTrace --runInBand --watchAll",

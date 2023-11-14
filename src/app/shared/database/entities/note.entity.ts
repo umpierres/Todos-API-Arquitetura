@@ -1,9 +1,9 @@
-import {Entity, PrimaryColumn, Column, BaseEntity, ManyToOne, JoinColumn} from 'typeorm';
+import {Entity, PrimaryColumn, Column, BaseEntity, ManyToOne, JoinColumn, PrimaryGeneratedColumn} from 'typeorm';
 import { UserEntity } from './user.entity';
 
 @Entity({name:'tasks'})
 export class NoteEntity extends BaseEntity{
-    @PrimaryColumn({name:'id', type: 'uuid'})
+    @PrimaryGeneratedColumn('uuid')
     	id!: string;
     
     @PrimaryColumn({name:'id_user'})

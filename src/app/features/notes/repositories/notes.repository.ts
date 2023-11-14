@@ -44,9 +44,9 @@ export class NoteRepository {
 			user
 		});
 
-		const note = await this._manager.save(newNote);
-
-		return this.entityToClass(note);
+		await this._manager.save(newNote);
+		console.log(newNote);
+		return this.entityToClass(newNote);
 	}
 
 	async listNotes(ownerID: string, filter?:Filter) : Promise<Note[]> {
@@ -166,7 +166,7 @@ export class NoteRepository {
 	private entityToClass(dataDB: NoteEntity): Note {
 		const user = new User(dataDB.user.id, dataDB.user.email, dataDB.user.password);
 		const note = new Note(dataDB.id, dataDB.title, dataDB.description, dataDB.archived,dataDB.favorited, user);
-  
+
 		return note;
 	}
 }
